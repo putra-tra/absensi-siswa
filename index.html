@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Absensi Guru</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="container">
+        <div class="login-container" id="login-page">
+            <div class="login-card">
+                <div class="login-logo">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <h1 class="login-title">Sistem Absensi Guru</h1>
+                <p class="login-subtitle">Silakan masuk dengan akun guru Anda</p>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" class="form-control" placeholder="Masukkan username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Masukkan password" required>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Masuk</button>
+                </form>
+
+                <div class="mt-3">
+                    <p><small>Gunakan username: <strong>guru</strong> dan password: <strong>guru123</strong></small></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kelas Page -->
+        <div class="kelas-container" id="kelas-page">
+            <div class="kelas-card">
+                <div class="kelas-logo">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h1 class="kelas-title">Pilih Kelas yang Diajar</h1>
+                <p class="kelas-subtitle">Silakan pilih kelas Teknik Informatika yang akan Anda ajar</p>
+
+                <div class="kelas-grid" id="kelas-list">
+                    <!-- Daftar kelas akan diisi oleh JavaScript -->
+                </div>
+
+                <div class="mt-3">
+                    <p><small>Klik pada kelas untuk memilih</small></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mapel Page -->
+        <div class="mapel-container" id="mapel-page">
+            <div class="mapel-card">
+                <div class="mapel-logo">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h1 class="mapel-title">Pilih Mata Pelajaran</h1>
+                <p class="mapel-subtitle">Silakan pilih mata pelajaran yang akan Anda ajar</p>
+
+                <div class="mapel-grid" id="mapel-list">
+                    <!-- Daftar mapel akan diisi oleh JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main App -->
+        <div class="app-container" id="app-container">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="app-logo">
+                    <i class="fas fa-user-clock"></i>
+                    <h1>Sistem Absensi Guru</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">Guru</div>
+                        <div class="user-role">Guru</div>
+                        <div class="kelas-info-header" id="kelas-info-header">Kelas: -</div>
+                        <div class="mapel-info-header" id="mapel-info-header">Mapel: -</div>
+                    </div>
+                    <div class="user-avatar" id="user-avatar">G</div>
+                    <button class="logout-btn" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="app-main">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="nav-items">
+                        <div class="nav-item active" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </div>
+                        <div class="nav-item" data-page="absensi">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Absensi Siswa</span>
+                        </div>
+                        <div class="nav-item" data-page="laporan">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Laporan & Ekspor</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="content">
+                    <!-- Dashboard Page -->
+                    <div id="dashboard-page">
+                        <div class="content-header">
+                            <h2 class="content-title">Dashboard Guru</h2>
+                            <div class="date-time" id="current-date-time">Senin, 15 Mei 2023 - 10:30:45</div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                                <div class="stat-value" id="total-mapel">1</div>
+                                <div class="stat-label">Mata Pelajaran</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-value" id="total-siswa">0</div>
+                                <div class="stat-label">Total Siswa</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="stat-value" id="kehadiran-hari-ini">0%</div>
+                                <div class="stat-label">Kehadiran Hari Ini</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-day"></i>
+                                </div>
+                                <div class="stat-value" id="absensi-hari-ini">0</div>
+                                <div class="stat-label">Absensi Hari Ini</div>
+                            </div>
+                        </div>
+
+                        <div class="content-header">
+                            <h2 class="content-title">Informasi Kelas & Mapel</h2>
+                        </div>
+
+                        <div class="info-card">
+                            <h3 id="info-kelas-mapel">Kelas: - | Mapel: -</h3>
+                            <p id="info-jumlah-siswa">Jumlah Siswa: 0</p>
+                            <button class="btn btn-info mt-3" onclick="showPage('absensi')">
+                                <i class="fas fa-clipboard-list"></i> Input Absensi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Absensi Page -->
+                    <div id="absensi-page" class="d-none">
+                        <div class="absensi-header">
+                            <h2 class="absensi-title" id="absensi-mapel-name">Absensi - </h2>
+                            <div class="d-flex align-center" style="gap: 10px;">
+                                <button class="btn btn-success" id="simpan-semua-btn">
+                                    <i class="fas fa-save"></i> Simpan Semua
+                                </button>
+                                <button class="btn btn-info" id="export-pdf-btn">
+                                    <i class="fas fa-file-pdf"></i> Ekspor PDF
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="absensi-info">
+                            <div class="info-card">
+                                <div class="info-label">Tanggal</div>
+                                <div class="info-value" id="absensi-date">15 Mei 2023</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Waktu</div>
+                                <div class="info-value" id="absensi-time">10:30:45</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Total Siswa</div>
+                                <div class="info-value" id="absensi-total-siswa">0</div>
+                            </div>
+                            <div class="info-card">
+                                <div class="info-label">Hadir</div>
+                                <div class="info-value" id="absensi-hadir">0</div>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <div class="table-header">
+                                <h3 class="table-title">Daftar Siswa - Klik status untuk mengubah</h3>
+                            </div>
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NIS</th>
+                                        <th>Nama Siswa</th>
+                                        <th>Status</th>
+                                        <th>Waktu</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="siswa-list">
+                                    <!-- Daftar siswa akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Laporan Page -->
+                    <div id="laporan-page" class="d-none">
+                        <div class="content-header">
+                            <h2 class="content-title">Laporan & Ekspor Data</h2>
+                            <button class="btn btn-info" id="export-all-pdf-btn">
+                                <i class="fas fa-file-pdf"></i> Ekspor Semua PDF
+                            </button>
+                        </div>
+
+                        <div class="table-container">
+                            <div class="table-header">
+                                <h3 class="table-title">Riwayat Absensi</h3>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>Jumlah Siswa</th>
+                                        <th>Hadir</th>
+                                        <th>Tidak Hadir</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="riwayat-absensi">
+                                    <!-- Riwayat absensi akan diisi oleh JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Tambah Kelas -->
+    <div id="kelas-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Kelas Baru</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nama Kelas</label>
+                    <input type="text" id="nama-kelas" class="form-control" placeholder="Contoh: class" value="class">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jumlah Siswa</label>
+                    <div class="counter-container">
+                        <button class="counter-btn" id="decrease-students">-</button>
+                        <span class="counter-value" id="student-count">30</span>
+                        <button class="counter-btn" id="increase-students">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="simpan-kelas" class="btn btn-success">Simpan</button>
+                <button class="btn btn-danger" onclick="closeModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Tambah Siswa -->
+    <div id="siswa-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Tambah Siswa</h3>
+                <button class="close-btn" onclick="closeSiswaModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">NIS</label>
+                    <input type="text" id="nis-siswa" class="form-control" placeholder="Contoh: 2023001">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" id="nama-siswa" class="form-control" placeholder="Contoh: Ahmad Fauzi">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="simpan-siswa" class="btn btn-success">Simpan</button>
+                <button class="btn btn-danger" onclick="closeSiswaModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Edit Profil Mapel -->
+    <div id="mapel-edit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Profil Mapel</h3>
+                <button class="close-btn" onclick="closeMapelEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nama Mata Pelajaran</label>
+                    <input type="text" id="edit-nama-mapel" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nama Guru</label>
+                    <input type="text" id="edit-nama-guru" class="form-control" placeholder="Masukkan nama guru">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Inisial Avatar</label>
+                    <input type="text" id="edit-inisial-guru" class="form-control" placeholder="Masukkan inisial" maxlength="2">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="simpan-profil-mapel" class="btn btn-success">Simpan Profil</button>
+                <button class="btn btn-danger" onclick="closeMapelEditModal()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk Keterangan -->
+    <div id="keterangan-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="keterangan-title">Keterangan</h3>
+                <button class="close-btn" onclick="tutupModalKeterangan()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <div class="status-display">
+                        <span class="status-badge" id="keterangan-status-display">-</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Keterangan</label>
+                    <textarea id="input-keterangan" class="form-control" rows="3" placeholder="Masukkan keterangan (misal: izin karena acara keluarga, sakit demam, dll)"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="simpan-keterangan" class="btn btn-success">Simpan Keterangan</button>
+                <button class="btn btn-danger" onclick="tutupModalKeterangan()">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/kelas.js"></script>
+    <script src="scripts/mapel.js"></script>
+    <script src="scripts/absensi.js"></script>
+    <script src="scripts/laporan.js"></script>
+    <script src="scripts/pdf-export.js"></script>
+    <script src="scripts/app.js"></script>
+</body>
+</html>
